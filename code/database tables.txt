@@ -1,0 +1,91 @@
+CREATE TABLE customer (
+    customer_id INTEGER PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    city VARCHAR(50),
+    country VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO customer (customer_id, first_name, last_name, email, city, country) VALUES
+(1, 'John', 'Doe', 'john.doe@email.com', 'New York', 'USA'),
+(2, 'Jane', 'Smith', 'jane.smith@email.com', 'London', 'UK'),
+(3, 'Alice', 'Johnson', 'alice.j@email.com', 'Toronto', 'Canada');
+
+
+select * from customer;
+
+
+
+INSERT INTO customer (customer_id, first_name, last_name, email, city, country) VALUES
+(4, 'Michael', 'Brown', 'michael.brown@email.com', 'Chicago', 'USA'),
+(5, 'Emily', 'Davis', 'emily.davis@email.com', 'Sydney', 'Australia');
+
+
+
+UPDATE customer
+SET 
+    first_name = 'Janet',
+    last_updated = CURRENT_TIMESTAMP
+WHERE customer_id = 2;
+
+UPDATE customer
+SET 
+    first_name = 'Alan',
+    last_updated = CURRENT_TIMESTAMP
+WHERE customer_id = 3;
+
+
+select * from customer;
+
+
+
+---------------------------
+
+Redshift Table
+
+CREATE TABLE dwh.customer_main (
+    customer_id integer ,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50) ,
+    email VARCHAR(50) ,
+    city VARCHAR(50) ,
+    country VARCHAR(50) ,
+    created_at timestamp without time zone ,
+    last_updated timestamp without time zone 
+) DISTSTYLE AUTO;
+
+
+
+
+select * from customer;
+
+
+
+redshift table
+
+CREATE TABLE dwh.customer_stagging (
+    customer_id INTEGER ,
+    first_name VARCHAR(50) ,
+    last_name VARCHAR(50) ,
+    email VARCHAR(100) ,
+    city VARCHAR(100) ,
+    country VARCHAR(100) ,
+    created_at TIMESTAMP ,
+    last_updated TIMESTAMP 
+)
+DISTSTYLE EVEN;
+
+
+
+
+ENCODE specifies the compression encoding used to store column data more efficiently on disk.
+
+
+create table "dev"."dwh"."customer_main" as 
+select * from "dev"."dwh"."customer_stagging" where 1=2;
+
+select * from "dev"."dwh"."customer_main";
